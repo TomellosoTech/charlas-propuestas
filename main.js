@@ -65,6 +65,7 @@ function parseCategories(categories, tags=tags){
     });
     return output.join(',');
 }
+
 function linkify(inputText) {
     var replacedText, replacePattern1, replacePattern2, replacePattern3;
 
@@ -124,6 +125,5 @@ document.querySelectorAll('#categoryFilter li').forEach(elem => {
             let hideEls = document.querySelectorAll(`#talks li:not([data-tags*="${dataCategory}"])`);
             hideEls.forEach(elem => elem.classList.add('hide'));
         }
-
     });
 });
