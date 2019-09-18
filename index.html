@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <link href="micromodal.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.4/jsrender.min.js" integrity="sha256-s+wXPcRhQXvh1VlUAEpAIwi8DaDCxbNpB4QsJ6Kwdro=" crossorigin="anonymous"></script>
-    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
 
+
+    <title>Actividades propuestas</title>
     <style>
         #talks {
             list-style: none;
@@ -33,12 +37,18 @@
         .talk-description{
             cursor: pointer;
         }
+        h1,
+        .talk-title{
+            font-family: 'Montserrat', sans-serif;
+        }
+        body{
+            font-family: 'Courier New';
+        }
         .talk-title{
             text-align: center;
             line-height: 1.5rem;
             text-transform: uppercase;
             background-color: #DB4367;
-            font-family: 'Montserrat', sans-serif;
             color: white;
             margin-top: 0;
             margin-top: -4px;
@@ -50,7 +60,6 @@
             display: -webkit-box;
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
-            font-family: 'Courier New';
             font-size: .85rem;
             padding: 0 1rem;
             line-height: 1.25rem;
@@ -60,6 +69,21 @@
             height:28px;
             margin-bottom: 1rem;
         }
+        .acenter{
+            text-align: center;
+        }
+        .intro{
+            line-height: 1.35rem;
+            margin-bottom: 2rem;
+        }
+        .intro strong{
+            background-color: #DB4367;
+            color: white;
+        }
+        #modal-content strong {
+            margin-top: 1rem;
+            display: inline-block;
+        }
     </style>
 
 </head>
@@ -67,6 +91,17 @@
 <body>
     <div id="fb-root"></div>
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v4.0"></script>
+
+    <h1 class="acenter">Actividades propuestas</h1>
+    <p class="acenter intro">
+        A continuación puedes ver un listado de actividades que se han propuesto
+        para organizar desde la asociación. Tu ayuda es muy importante, por eso
+        <strong>nos gustaría pedirte que indiques qué charlas te interesan con un "Me gusta" y que nos
+        ayudes a encontrar a más gente interesada compartiendo aquellas charlas
+        que le puedan interesar a tus contactos</strong>. Y por supuesto, si quieres
+        también puedes <a href="https://docs.google.com/forms/d/e/1FAIpQLSfVVcG87y4tkRDAELX8nZq276o9oL0_BkOxc2497rv4arPbYg/viewform">envíar tú una propuesta</a>.
+    </p>
+
     <ul id="talks"></ul>
 
 
@@ -79,9 +114,9 @@
             data-level = "{{:level}}"
             data-comments = "{{:comments}}"
         >
-            <img src="https://source.unsplash.com/300x200/?{{:tags}}" width="300" height="200">
-            <p class="talk-title">{{:title}}</p>
-            <p class="talk-description">{{:description}}</p>
+            <img src="https://source.unsplash.com/300x200/?{{:tags}}" width="300" height="200" onclick="showModal({{:index}})">
+            <p class="talk-title" style="background-color: {{:titleColor}}" onclick="showModal({{:index}})">{{:title}}</p>
+            <p class="talk-description" onclick="showModal({{:index}})">{{:description}}</p>
             <div class="fb-buttons">
                 <div class="fb-like" data-href="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Ftomellosotech.org%2Fcharla%2F{{:title}}" data-width="" data-layout="button" data-action="like" data-size="large" data-show-faces="true" data-share="true"></div>
             </div>
@@ -89,9 +124,48 @@
         {{/for}}
 </script>
 
-<script id="popupTmpl" type="text/x-jsrender">
+<div class="modal micromodal-slide" id="modal" aria-hidden="true">
+    <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+      <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <header class="modal__header">
+          <h2 class="modal__title" id="modal-title">
+            Micromodal
+          </h2>
+          <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
+        </header>
 
-</script>
+        <main class="modal__content" id="modal-content">
+          <div>
+            <strong>Descripción:</strong><br>
+            <div id="modal-description"></div>
+          </div>
+          <div>
+            <strong>Nivel de dificultad:</strong> <span id="modal-level"></span>
+          </div>
+          <div>
+              <strong>Duración:</strong> <span id="modal-length"></span>
+          </div>
+          <div>
+              <strong>Ponentes(s):</strong><br>
+              <div id="modal-speakers"></div>
+          </div>
+          <div>
+              <strong>Categoría(s):</strong><br>
+              <div id="modal-categories"></div>
+          </div>
+
+          <div>
+              <strong>Otros comentarios:</strong><br>
+              <div id="modal-comments"></div>
+          </div>
+        </main>
+
+        <footer class="modal__footer">
+          <button class="modal__btn" data-micromodal-close aria-label="Close this dialog window">Cerrar</button>
+        </footer>
+      </div>
+    </div>
+  </div>
 
 <script>
 
@@ -104,22 +178,25 @@
     });
 
     function loadTalks(data){
-        let talks = [];
+        window.talks = [];
 
         const tags = [
-        ['Herramientas y lenguajes de programación', 'programming,development'],
-        ['Tendencias tecnológicas', 'vr,bigdata'],
-        ['Robótica, electrónica', 'robotics,electronic'],
-        ['Herramientas y técnicas de productividad', 'productivity,post-it'],
-        ['Marketing online', 'marketing'],
-        ['Diseño gráfico', 'design'],
-        ['Emprendimiento', 'business'],
-        ['Buen uso de la tecnología', 'security,privacy']
+            ['Herramientas y lenguajes de programación', 'programming,development'],
+            ['Tendencias tecnológicas', 'vr,bigdata'],
+            ['Robótica, electrónica', 'robotics,electronic'],
+            ['Herramientas y técnicas de productividad', 'productivity,post-it'],
+            ['Marketing online', 'marketing'],
+            ['Diseño gráfico', 'design'],
+            ['Emprendimiento', 'business'],
+            ['Buen uso de la tecnología', 'security,privacy']
         ];
+
+        const colorPalette = ['#DB4367', '#EB4B38', '#AC4988', '#705390', '#3F5279', '#2F4857'];
 
         data.feed.entry.forEach(element => {
             let talkTags = [];
             let talk = {
+                index: talks.length,
                 title: element.gsx$title.$t,
                 description: element.gsx$description.$t,
                 length: element.gsx$length.$t,
@@ -134,7 +211,7 @@
                     talkTags = talkTags.concat(tag[1].split(','));
                 }
             });
-
+            talk.titleColor = colorPalette[getRandomInt(0, colorPalette.length)];
             talk.tags = talkTags.join(',');
 
             talk['description'] = linkify(talk['description']);
@@ -146,13 +223,6 @@
         const template = $.templates("#talkTmpl");
         const htmlOutput = template.render({talks});
         $("#talks").html(htmlOutput);
-    }
-
-    function renderPopup(){
-        // ['description', 'speakers', 'comments'].forEach( attr => {
-        //     talk[attr] = linkify(talk[attr]);
-        //     talk[attr] = talk[attr].replace(/(?:\r\n|\r|\n)/g, '<br>');
-        // })
     }
 
     function linkify(inputText) {
@@ -173,7 +243,26 @@
         return replacedText;
     }
 
+    function getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
 
+    function showModal(id) {
+        [
+            'title', 'description', 'level', 'length', 'speakers',
+            'categories', 'comments'
+        ].forEach( attr => {
+            let output = linkify(talks[id][attr]);
+            output = output.replace(/(?:\r\n|\r|\n)/g, '<br>');
+            output = output? output : 'n.a.'
+            document.getElementById(`modal-${attr}`).innerHTML = output;
+        })
+
+        MicroModal.show('modal');
+        console.log(talks[id]);
+    }
 </script>
 </body>
 </html>
