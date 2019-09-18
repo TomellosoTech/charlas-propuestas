@@ -128,6 +128,8 @@
 
 .micromodal-slide.is-open {
   display: block;
+  z-index: 999;
+  position: relative;
 }
 
 .micromodal-slide[aria-hidden="false"] .modal__overlay {

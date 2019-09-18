@@ -12,7 +12,7 @@
     <style>
         #talks {
             list-style: none;
-            margin: 0;
+            margin: 1rem 0 0;
             padding: 0;
         }
         #talks li{
@@ -84,6 +84,94 @@
             margin-top: 1rem;
             display: inline-block;
         }
+        /**
+         * Tooltip Styles
+         */
+
+        /* Add this attribute to the element that needs a tooltip */
+        [data-tooltip] {
+          position: relative;
+          z-index: 2;
+          cursor: pointer;
+        }
+
+        /* Hide the tooltip content by default */
+        [data-tooltip]:before,
+        [data-tooltip]:after {
+          visibility: hidden;
+          -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+          filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=0);
+          opacity: 0;
+          pointer-events: none;
+        }
+
+        /* Position tooltip above the element */
+        [data-tooltip]:before {
+          position: absolute;
+          bottom: 150%;
+          left: 50%;
+          margin-bottom: 5px;
+          margin-left: -80px;
+          padding: 7px;
+          width: 160px;
+          -webkit-border-radius: 3px;
+          -moz-border-radius: 3px;
+          border-radius: 3px;
+          background-color: #000;
+          background-color: hsla(0, 0%, 20%, 0.9);
+          color: #fff;
+          content: attr(data-tooltip);
+          text-align: center;
+          font-size: 14px;
+          line-height: 1.2;
+        }
+
+        /* Triangle hack to make tooltip look like a speech bubble */
+        [data-tooltip]:after {
+          position: absolute;
+          bottom: 150%;
+          left: 50%;
+          margin-left: -5px;
+          width: 0;
+          border-top: 5px solid #000;
+          border-top: 5px solid hsla(0, 0%, 20%, 0.9);
+          border-right: 5px solid transparent;
+          border-left: 5px solid transparent;
+          content: " ";
+          font-size: 0;
+          line-height: 0;
+        }
+
+        /* Show tooltip content on hover */
+        [data-tooltip]:hover:before,
+        [data-tooltip]:hover:after {
+          visibility: visible;
+          -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+          filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
+          opacity: 1;
+        }
+        #categoryFilter,
+        #categoryFilter li{
+            display: inline-block;
+        }
+        #categoryFilter{
+            margin: 0;
+            padding: 0;
+        }
+        #categoryFilter li{
+            list-style: none;
+            border: 1px solid #ccc;
+            padding: 3px 5px;
+            cursor: pointer;
+        }
+        #categoryFilter li.active{
+            background-color: #DB4367;
+            color: white;
+        }
+        .hide{
+            display: none !important;
+        }
+
     </style>
 
 </head>
@@ -102,6 +190,21 @@
         también puedes <a href="https://docs.google.com/forms/d/e/1FAIpQLSfVVcG87y4tkRDAELX8nZq276o9oL0_BkOxc2497rv4arPbYg/viewform">envíar tú una propuesta</a>.
     </p>
 
+    <div class="acenter">
+        Ver por categoría:
+        <ul id="categoryFilter">
+            <li data-category="all" class="active">Todas</li>
+            <li data-category="programming" class="tooltip" data-tooltip="Herramientas y lenguajes de programación: Wordpress, Github, AWS, JS, .Net, Java, BBDDs, clean code,...">Programación</li>
+            <li data-category="future" class="tooltip" data-tooltip="Tendencias tecnológicas: Inteligencia artificial, Big Data, Blockchain, VR, AR/XR, Bots, ...">Tendencias</li>
+            <li data-category="robotics" class="tooltip" data-tooltip="Robótica, electrónica, drones, impresión 3D, IoT, domótica, ...">Robótica</li>
+            <li data-category="post-it" class="tooltip" data-tooltip="Herramientas y técnicas de productividad: Trello, GTD, Pomodoro, Scrum, G Suite, ...">Productividad</li>
+            <li data-category="marketing" class="tooltip" data-tooltip="Marketing online: SEO, SEM, Growth hacking, analítica web, ...">Marketing</li>
+            <li data-category="design" class="tooltip" data-tooltip="Diseño gráfico, usabilidad, experiencia de usuario, ...">Diseño</li>
+            <li data-category="business" class="tooltip" data-tooltip="Emprendimiento: financiación, lean startup, técnicas de negociación, ...">Emprendimiento</li>
+            <li data-category="cyber-security" class="tooltip" data-tooltip="Buen uso de la tecnología: seguridad, privacidad, acoso virtual, cyberbullying, ...">Buenas prácticas</li>
+        </ul>
+    </div>
+
     <ul id="talks"></ul>
 
 
@@ -113,6 +216,7 @@
             data-categories = "{{:categories}}"
             data-level = "{{:level}}"
             data-comments = "{{:comments}}"
+            data-tags = "{{:tags}}"
         >
             <img src="https://source.unsplash.com/300x200/?{{:tags}}" width="300" height="200" onclick="showModal({{:index}})">
             <p class="talk-title" style="background-color: {{:titleColor}}" onclick="showModal({{:index}})">{{:title}}</p>
@@ -181,20 +285,21 @@
         window.talks = [];
 
         const tags = [
-            ['Herramientas y lenguajes de programación', 'programming,development'],
-            ['Tendencias tecnológicas', 'vr,bigdata'],
-            ['Robótica, electrónica', 'robotics,electronic'],
-            ['Herramientas y técnicas de productividad', 'productivity,post-it'],
+            ['Herramientas y lenguajes de programación', 'programming'],
+            ['Tendencias tecnológicas', 'future'],
+            ['Robótica, electrónica', 'robotics'],
+            ['Herramientas y técnicas de productividad', 'post-it'],
             ['Marketing online', 'marketing'],
             ['Diseño gráfico', 'design'],
             ['Emprendimiento', 'business'],
-            ['Buen uso de la tecnología', 'security,privacy']
+            ['Buen uso de la tecnología', 'cyber-security']
         ];
 
         const colorPalette = ['#DB4367', '#EB4B38', '#AC4988', '#705390', '#3F5279', '#2F4857'];
 
         data.feed.entry.forEach(element => {
             let talkTags = [];
+
             let talk = {
                 index: talks.length,
                 title: element.gsx$title.$t,
@@ -202,6 +307,7 @@
                 length: element.gsx$length.$t,
                 speakers: element.gsx$speakers.$t,
                 categories: element.gsx$categories.$t,
+                tags: parseCategories(element.gsx$categories.$t,tags),
                 level: element.gsx$level.$t,
                 comments: element.gsx$comments.$t
             };
@@ -225,6 +331,15 @@
         $("#talks").html(htmlOutput);
     }
 
+    function parseCategories(categories, tags=tags){
+        var output = [];
+        tags.forEach(tag => {
+            if(categories.indexOf(tag[0]) !== -1){
+                output.push(tag[1]);
+            }
+        });
+        return output.join(',');
+    }
     function linkify(inputText) {
         var replacedText, replacePattern1, replacePattern2, replacePattern3;
 
@@ -252,7 +367,7 @@
     function showModal(id) {
         [
             'title', 'description', 'level', 'length', 'speakers',
-            'categories', 'comments'
+            'comments'
         ].forEach( attr => {
             let output = linkify(talks[id][attr]);
             output = output.replace(/(?:\r\n|\r|\n)/g, '<br>');
@@ -260,9 +375,35 @@
             document.getElementById(`modal-${attr}`).innerHTML = output;
         })
 
+        document.getElementById('modal-categories').innerHTML = talks[id].categories.split('..., ').join('...<br>')
+
+
         MicroModal.show('modal');
         console.log(talks[id]);
     }
+
+    document.querySelectorAll('#categoryFilter li').forEach(elem => {
+        elem.addEventListener('click', function(e) {
+            console.log("Hecho: ",e.currentTarget)
+            document.querySelector('#categoryFilter .active').classList.remove('active');
+            e.currentTarget.classList.add('active');
+            const dataCategory = e.currentTarget.getAttribute('data-category');
+
+            if(dataCategory === 'all'){
+                let showEls = document.querySelectorAll(`li.hide`);
+                showEls.forEach(elem => elem.classList.remove('hide'));
+            }else{
+                let showEls = document.querySelectorAll(`li[data-tags*="${dataCategory}"].hide`);
+                showEls.forEach(elem => elem.classList.remove('hide'));
+
+                let hideEls = document.querySelectorAll(`#talks li:not([data-tags*="${dataCategory}"])`);
+                hideEls.forEach(elem => elem.classList.add('hide'));
+            }
+
+        });
+    });
+
+
 </script>
 </body>
 </html>
