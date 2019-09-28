@@ -1,4 +1,5 @@
-const talksUrl = 'https://spreadsheets.google.com/feeds/list/1_jMY6CMf9oKhDxzn_NRrUPtu6f-h8cxVkqy7KOE_m2U/1/public/values?alt=json-in-script&callback=loadTalks';
+const talksUrl = `https://spreadsheets.google.com/feeds/list/${spreadsheetsId}/${spreadsheetsTab}/public/values?alt=json-in-script&callback=loadTalks`;
+
 $.ajax({
     url: talksUrl,
     jsonp: "loadTalks",
@@ -8,19 +9,6 @@ $.ajax({
 
 function loadTalks(data){
     window.talks = [];
-
-    const tags = [
-        ['Herramientas y lenguajes de programación', 'programming'],
-        ['Tendencias tecnológicas', 'future'],
-        ['Robótica, electrónica', 'robotics'],
-        ['Herramientas y técnicas de productividad', 'post-it'],
-        ['Marketing online', 'marketing'],
-        ['Diseño gráfico', 'design'],
-        ['Emprendimiento', 'business'],
-        ['Buen uso de la tecnología', 'cyber-security']
-    ];
-
-    const colorPalette = ['#DB4367', '#EB4B38', '#AC4988', '#705390', '#3F5279', '#2F4857'];
 
     data.feed.entry.forEach(element => {
         let talkTags = [];
@@ -52,6 +40,7 @@ function loadTalks(data){
     });
 
     const template = $.templates("#talkTmpl");
+    talks = shuffle(talks)
     const htmlOutput = template.render({talks});
     $("#talks").html(htmlOutput);
 }
@@ -127,3 +116,22 @@ document.querySelectorAll('#categoryFilter li').forEach(elem => {
         }
     });
 });
+
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
