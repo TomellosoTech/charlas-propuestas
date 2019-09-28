@@ -41,16 +41,15 @@
 
     <script id="talkTmpl" type="text/x-jsrender">
         {{for talks}}
-        <li>
-            <div
-                class = "container"
-                data-length = "{{:length}}"
-                data-speakers = "{{:speakers}}"
-                data-categories = "{{:categories}}"
-                data-level = "{{:level}}"
-                data-comments = "{{:comments}}"
-                data-tags = "{{:tags}}"
-            >
+        <li
+            data-length = "{{:length}}"
+            data-speakers = "{{:speakers}}"
+            data-categories = "{{:categories}}"
+            data-level = "{{:level}}"
+            data-comments = "{{:comments}}"
+            data-tags = "{{:tags}}"
+        >
+            <div class = "container">
                 <div class="img" width="300" height="200" onclick="showModal({{:index}})" style="background-image:url('https://source.unsplash.com/300x200/?{{:tags}}')"></div>
                 <p class="talk-title" style="background-color: {{:titleColor}}" onclick="showModal({{:index}})">{{:title}}</p>
                 <p class="talk-description" onclick="showModal({{:index}})">{{:description}}</p>
