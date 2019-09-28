@@ -1,5 +1,8 @@
 const spreadsheetsId = '1_jMY6CMf9oKhDxzn_NRrUPtu6f-h8cxVkqy7KOE_m2U';
 const spreadsheetsTab = 1;
+const modalFields = [
+        'title', 'description', 'level', 'length', 'speakers', 'comments'
+    ];
 
 const tags = [
     ['Herramientas y lenguajes de programación', 'programming'],

@@ -15,14 +15,14 @@ function loadTalks(data){
 
         let talk = {
             index: talks.length,
-            title: element.gsx$title.$t,
-            description: element.gsx$description.$t,
-            length: element.gsx$length.$t,
-            speakers: element.gsx$speakers.$t,
-            categories: element.gsx$categories.$t,
-            tags: parseCategories(element.gsx$categories.$t,tags),
-            level: element.gsx$level.$t,
-            comments: element.gsx$comments.$t
+            title: element.gsx$title? element.gsx$title.$t: null,
+            description: element.gsx$description? element.gsx$description.$t: null,
+            length: element.gsx$length? element.gsx$length.$t: null,
+            speakers: element.gsx$speakers? element.gsx$speakers.$t: null,
+            categories: element.gsx$categories? element.gsx$categories.$t: null,
+            tags: element.gsx$categories? parseCategories(element.gsx$categories.$t,tags): null,
+            level: element.gsx$level? element.gsx$level.$t: null,
+            comments: element.gsx$comments? element.gsx$comments.$t: null
         };
 
         tags.forEach(tag => {
@@ -80,18 +80,16 @@ function getRandomInt(min, max) {
 }
 
 function showModal(id) {
-    [
-        'title', 'description', 'level', 'length', 'speakers',
-        'comments'
-    ].forEach( attr => {
+    modalFields.forEach( attr => {
         let output = linkify(talks[id][attr]);
         output = output.replace(/(?:\r\n|\r|\n)/g, '<br>');
         output = output? output : 'n.a.'
         document.getElementById(`modal-${attr}`).innerHTML = output;
     })
 
-    document.getElementById('modal-categories').innerHTML = talks[id].categories.split('..., ').join('...<br>')
-
+    if(talks[id].categories){
+        document.getElementById('modal-categories').innerHTML = talks[id].categories.split('..., ').join('...<br>')
+    }
 
     MicroModal.show('modal');
     console.log(talks[id]);
