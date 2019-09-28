@@ -338,5 +338,8 @@ body{
         /* border: 1px dotted #ccc; */
         width: 100%;
     }
+    .intro{
+        line-height: 2rem;
+    }
 
 }
