@@ -10,6 +10,7 @@ $.ajax({
 function loadTalks(data){
     window.talks = [];
 
+    data.feed.entry = shuffle(data.feed.entry);
     data.feed.entry.forEach(element => {
         let talkTags = [];
 
@@ -40,7 +41,6 @@ function loadTalks(data){
     });
 
     const template = $.templates("#talkTmpl");
-    talks = shuffle(talks)
     const htmlOutput = template.render({talks});
     $("#talks").html(htmlOutput);
 }
