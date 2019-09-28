@@ -2,6 +2,8 @@
 <html lang="es">
 <head>
     <title>Actividades propuestas</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+
     <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
     <link href="main.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -40,19 +42,22 @@
 
     <script id="talkTmpl" type="text/x-jsrender">
         {{for talks}}
-        <li
-            data-length = "{{:length}}"
-            data-speakers = "{{:speakers}}"
-            data-categories = "{{:categories}}"
-            data-level = "{{:level}}"
-            data-comments = "{{:comments}}"
-            data-tags = "{{:tags}}"
-        >
-            <img src="https://source.unsplash.com/300x200/?{{:tags}}" width="300" height="200" onclick="showModal({{:index}})">
-            <p class="talk-title" style="background-color: {{:titleColor}}" onclick="showModal({{:index}})">{{:title}}</p>
-            <p class="talk-description" onclick="showModal({{:index}})">{{:description}}</p>
-            <div class="fb-buttons">
-                <div class="fb-like" data-href="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Ftomellosotech.org%2Fcharla%2F{{:title}}" data-width="" data-layout="button" data-action="like" data-size="large" data-show-faces="true" data-share="true"></div>
+        <li>
+            <div
+                class = "container"
+                data-length = "{{:length}}"
+                data-speakers = "{{:speakers}}"
+                data-categories = "{{:categories}}"
+                data-level = "{{:level}}"
+                data-comments = "{{:comments}}"
+                data-tags = "{{:tags}}"
+            >
+                <div class="img" width="300" height="200" onclick="showModal({{:index}})" style="background-image:url('https://source.unsplash.com/300x200/?{{:tags}}')"></div>
+                <p class="talk-title" style="background-color: {{:titleColor}}" onclick="showModal({{:index}})">{{:title}}</p>
+                <p class="talk-description" onclick="showModal({{:index}})">{{:description}}</p>
+                <div class="fb-buttons">
+                    <div class="fb-like" data-href="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Ftomellosotech.org%2Fcharla%2F{{:title}}" data-width="" data-layout="button" data-action="like" data-size="large" data-show-faces="true" data-share="true"></div>
+                </div>
             </div>
         </li>
         {{/for}}
