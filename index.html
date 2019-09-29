@@ -55,7 +55,11 @@
             data-tags = "{{:tags}}"
         >
             <div class = "container">
-                <div class="img" width="300" height="200" onclick="showModal({{:index}})" style="background-image:url('https://source.unsplash.com/300x200/?{{:tags}}')"></div>
+                {{if thumbnail}}
+                    <div class="img" width="300" height="200" onclick="showModal({{:index}})" style="background-image:url('{{:thumbnail}}')"></div>
+                {{else}}
+                    <div class="img" width="300" height="200" onclick="showModal({{:index}})" style="background-image:url('https://source.unsplash.com/300x200/?{{:tags}}')"></div>
+                {{/if}}
                 <p class="talk-title" style="background-color: {{:titleColor}}" onclick="showModal({{:index}})">{{:title}}</p>
                 <p class="talk-description" onclick="showModal({{:index}})">{{:description}}</p>
                 <div class="fb-buttons">

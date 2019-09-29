@@ -23,7 +23,8 @@ function loadTalks(data){
             categories: element.gsx$categories? element.gsx$categories.$t: null,
             tags: element.gsx$categories? parseCategories(element.gsx$categories.$t,tags): null,
             level: element.gsx$level? element.gsx$level.$t: null,
-            comments: element.gsx$comments? element.gsx$comments.$t: null
+            comments: element.gsx$comments? element.gsx$comments.$t: null,
+            thumbnail: element.gsx$thumbnail? element.gsx$thumbnail.$t: null
         };
 
         tags.forEach(tag => {
