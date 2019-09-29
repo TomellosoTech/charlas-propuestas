@@ -57,6 +57,7 @@
   margin-bottom: 2rem;
   line-height: 1.5;
   color: rgba(0,0,0,.8);
+  font-family: "Courier New";
 }
 
 .modal__btn {
@@ -85,6 +86,8 @@
   transition: -webkit-transform .25s ease-out;
   transition: transform .25s ease-out;
   transition: transform .25s ease-out,-webkit-transform .25s ease-out;
+  font-family: "Courier New";
+  width: 100%;
 }
 
 .modal__btn:focus, .modal__btn:hover {
@@ -195,15 +198,19 @@ div.img{
     cursor: pointer;
 }
 h1,
-.talk-title{
+.talk-title,
+.modal__title{
     font-family: 'Montserrat', sans-serif;
+}
+h1{
+    font-size: 1.3rem;
 }
 html,body{
     width: 100%;
 }
 body{
     font-family: 'Courier New';
-    margin: 0;
+    margin: 1.5rem 0 0;
 
 }
 .talk-title{
@@ -333,8 +340,15 @@ body{
     background-color: #DB4367;
     color: white;
 }
+.link{
+    color:rgb(0, 0, 238);
+    text-decoration: underline;
+}
 .hide{
     display: none !important;
+}
+.showMobile{
+    display: none;
 }
 
 @media (max-width: 500px) {
@@ -345,5 +359,10 @@ body{
     .intro{
         line-height: 2rem;
     }
-
+    .hideMobile{
+        display: none;
+    }
+    .showMobile{
+        display: block;
+    }
 }
