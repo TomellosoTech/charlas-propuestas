@@ -134,3 +134,12 @@ function shuffle(array) {
 
   return array;
 }
+
+var urlParams = new URLSearchParams(window.location.search);
+
+if(urlParams.has('hideHeader')){
+
+    document.querySelectorAll('.header').forEach((elem)=>{
+        elem.style="display:none"
+    })
+}
