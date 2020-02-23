@@ -96,26 +96,27 @@ function showModal(id) {
     console.log(talks[id]);
 }
 
-document.querySelectorAll('#categoryFilter li').forEach(elem => {
-    elem.addEventListener('click', function(e) {
-        console.log("Hecho: ",e.currentTarget)
-        document.querySelector('#categoryFilter .active').classList.remove('active');
-        e.currentTarget.classList.add('active');
-        const dataCategory = e.currentTarget.getAttribute('data-category');
+$(function() {
+    document.querySelectorAll('#categoryFilter li').forEach(elem => {
+        elem.addEventListener('click', function(e) {
+            console.log("Hecho: ",e.currentTarget)
+            document.querySelector('#categoryFilter .active').classList.remove('active');
+            e.currentTarget.classList.add('active');
+            const dataCategory = e.currentTarget.getAttribute('data-category');
 
-        if(dataCategory === 'all'){
-            let showEls = document.querySelectorAll(`li.hide`);
-            showEls.forEach(elem => elem.classList.remove('hide'));
-        }else{
-            let showEls = document.querySelectorAll(`li[data-tags*="${dataCategory}"].hide`);
-            showEls.forEach(elem => elem.classList.remove('hide'));
+            if(dataCategory === 'all'){
+                let showEls = document.querySelectorAll(`li.hide`);
+                showEls.forEach(elem => elem.classList.remove('hide'));
+            }else{
+                let showEls = document.querySelectorAll(`li[data-tags*="${dataCategory}"].hide`);
+                showEls.forEach(elem => elem.classList.remove('hide'));
 
-            let hideEls = document.querySelectorAll(`#talks li:not([data-tags*="${dataCategory}"])`);
-            hideEls.forEach(elem => elem.classList.add('hide'));
-        }
+                let hideEls = document.querySelectorAll(`#talks li:not([data-tags*="${dataCategory}"])`);
+                hideEls.forEach(elem => elem.classList.add('hide'));
+            }
+        });
     });
 });
-
 function shuffle(array) {
   var currentIndex = array.length, temporaryValue, randomIndex;
 
