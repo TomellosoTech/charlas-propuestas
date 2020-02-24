@@ -16,14 +16,14 @@ function loadTalks(data){
 
         let talk = {
             index: talks.length,
-            title: element.gsx$title? element.gsx$title.$t: null,
-            description: element.gsx$description? element.gsx$description.$t: null,
-            length: element.gsx$length? element.gsx$length.$t: null,
-            speakers: element.gsx$speakers? element.gsx$speakers.$t: null,
-            categories: element.gsx$categories? element.gsx$categories.$t: null,
-            tags: element.gsx$categories? parseCategories(element.gsx$categories.$t,tags): null,
-            level: element.gsx$level? element.gsx$level.$t: null,
-            comments: element.gsx$comments? element.gsx$comments.$t: null,
+            title: element["gsx$títulodelaactividad"]? element["gsx$títulodelaactividad"].$t: null,
+            description: element["gsx$descripción"]? element["gsx$descripción"].$t: null,
+            length: element["gsx$duracióndelaactividad"]? element["gsx$duracióndelaactividad"].$t: null,
+            speakers: element.gsx$ponentes? element.gsx$ponentes.$t: null,
+            categories: element["gsx$categorías"]? element["gsx$categorías"].$t: null,
+            tags: element["gsx$categorías"]? parseCategories(element["gsx$categorías"].$t,tags): null,
+            level: element.gsx$nivel? element.gsx$nivel.$t: null,
+            comments: element.gsx$otroscomentarios? element.gsx$otroscomentarios.$t: null,
             thumbnail: element.gsx$thumbnail? element.gsx$thumbnail.$t: null
         };
 
